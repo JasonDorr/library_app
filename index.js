@@ -1,3 +1,5 @@
+let library = [];
+
 function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
@@ -7,6 +9,12 @@ function Book(title, author, pages, read) {
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
   };
 }
+
+const addBookToLibrary = (book) => {
+  library.push(book);
+};
+
+const container = document.querySelector(".container");
 
 const theHobbit = new Book(
   "The Hobbit",
@@ -22,5 +30,14 @@ const eragon = new Book(
   "I have read this."
 );
 
-console.log(theHobbit.info());
-console.log(eragon.info());
+addBookToLibrary(theHobbit);
+addBookToLibrary(eragon);
+
+const addCard = () => {
+  library.forEach((book) => {
+    const div = document.createElement("div");
+    container.appendChild(div);
+    div.className = "card";
+    div.innerHTML = `<h2 class = "title">${book.title}</h2> <h3>${book.author}</h3> <span>${book.pages}</span>`;
+  });
+};
