@@ -1,13 +1,10 @@
 let library = [];
 
 const container = document.querySelector(".container");
-const btn = document.createElement("button");
-const header = document.querySelector("#header");
+const bookBtn = document.querySelector("#bookBtn");
+const modal = document.querySelector(".modal");
+const closeBtn = document.querySelector(".close-btn");
 let bookIndex;
-
-btn.setAttribute("id", "bookBtn");
-btn.innerText = "New Book";
-header.appendChild(btn);
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -33,9 +30,19 @@ const eragon = new Book(
   "I have read this."
 );
 
+const toggleModal = () => {
+  if (modal.style.display === "none") {
+    modal.style.display = "block";
+  } else {
+    modal.style.display = "none";
+  }
+};
+
 const addBookToLibrary = (book) => {
   library.push(book);
 };
+
+const createBook = () => {};
 
 addBookToLibrary(theHobbit);
 addBookToLibrary(eragon);
@@ -53,9 +60,13 @@ const addCard = () => {
     const div = createE("div", "card", "data-index", bookIndex);
     container.appendChild(div);
     div.innerHTML = `<h2 class = "title">${book.title}</h2> <h3>${book.author}</h3> <span>${book.pages}</span>`;
+
     const delBtn = createE("button", "delBtn", "data-type", "delBtn");
     div.appendChild(delBtn);
     delBtn.innerText = "X";
   });
 };
 addCard();
+
+bookBtn.addEventListener("click", toggleModal);
+closeBtn.addEventListener("click", toggleModal);
