@@ -4,6 +4,10 @@ const container = document.querySelector(".container");
 const bookBtn = document.querySelector("#bookBtn");
 const modal = document.querySelector(".modal");
 const closeBtn = document.querySelector(".close-btn");
+const form = document.querySelector("#modal-form");
+const formTitle = form.elements["title"];
+const formAuthor = form.elements["author"];
+const formPages = form.elements["pages"];
 let bookIndex;
 
 function Book(title, author, pages, read) {
@@ -42,7 +46,10 @@ const addBookToLibrary = (book) => {
   library.push(book);
 };
 
-const createBook = () => {};
+const createBook = (title, author, pages) => {
+  const book = new Book(title, author, pages);
+  return book;
+};
 
 addBookToLibrary(theHobbit);
 addBookToLibrary(eragon);
@@ -70,3 +77,4 @@ addCard();
 
 bookBtn.addEventListener("click", toggleModal);
 closeBtn.addEventListener("click", toggleModal);
+form.addEventListener("submit");
