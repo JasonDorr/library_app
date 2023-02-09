@@ -1,13 +1,13 @@
-let library = [];
+const library = [];
 
 const container = document.querySelector(".container");
 const bookBtn = document.querySelector("#bookBtn");
 const modal = document.querySelector(".modal");
 const closeBtn = document.querySelector(".close-btn");
 const form = document.querySelector("#modal-form");
-const formTitle = form.elements["title"];
-const formAuthor = form.elements["author"];
-const formPages = form.elements["pages"];
+const formTitle = document.querySelector("#title");
+const formAuthor = document.querySelector("#author");
+const formPages = document.querySelector("#pages");
 let bookIndex;
 
 function Book(title, author, pages, read) {
@@ -15,9 +15,8 @@ function Book(title, author, pages, read) {
   this.author = author;
   this.pages = pages;
   this.read = read;
-  this.info = () => {
-    return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
-  };
+  this.info = () =>
+    `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
 }
 
 const theHobbit = new Book(
@@ -62,6 +61,7 @@ const createE = (e, c, attr, name) => {
 };
 
 const addCard = () => {
+  container.innerHTML = "";
   library.forEach((book) => {
     bookIndex = library.indexOf(book);
     const div = createE("div", "card", "data-index", bookIndex);
@@ -77,4 +77,11 @@ addCard();
 
 bookBtn.addEventListener("click", toggleModal);
 closeBtn.addEventListener("click", toggleModal);
-form.addEventListener("submit");
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  addBookToLibrary(
+    createBook(formTitle.value, formAuthor.value, formPages.value)
+  );
+  addCard();
+  toggleModal();
+});
