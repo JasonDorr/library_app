@@ -2,7 +2,7 @@ const library = [];
 
 const container = document.querySelector(".container");
 const bookBtn = document.querySelector("#bookBtn");
-const modal = document.querySelector(".modal");
+const modal = document.querySelector("#modal");
 const closeBtn = document.querySelector(".close-btn");
 const form = document.querySelector("#modal-form");
 const formTitle = document.querySelector("#title");
@@ -41,6 +41,9 @@ const toggleModal = () => {
   }
 };
 
+bookBtn.addEventListener("click", toggleModal);
+closeBtn.addEventListener("click", toggleModal);
+
 const addBookToLibrary = (book) => {
   library.push(book);
 };
@@ -53,10 +56,10 @@ const createBook = (title, author, pages) => {
 addBookToLibrary(theHobbit);
 addBookToLibrary(eragon);
 
-const createE = (e, c, attr, name) => {
-  const newElement = document.createElement(e);
-  newElement.classList.add(c);
-  newElement.setAttribute(attr, name);
+const createE = (tag, className, attr, attrValue) => {
+  const newElement = document.createElement(tag);
+  newElement.classList.add(className);
+  newElement.setAttribute(attr, attrValue);
   return newElement;
 };
 
@@ -68,15 +71,18 @@ const addCard = () => {
     container.appendChild(div);
     div.innerHTML = `<h2 class = "title">${book.title}</h2> <h3>${book.author}</h3> <span>${book.pages}</span>`;
 
-    const delBtn = createE("button", "delBtn", "data-type", "delBtn");
+    const delBtn = createE("button", "delBtn", "data-index", bookIndex);
     div.appendChild(delBtn);
     delBtn.innerText = "X";
+
+    delBtn.addEventListener("click", (e) => {
+      library.splice(e.target.dataset.index, 1);
+      div.style.display = "none";
+    });
   });
 };
 addCard();
 
-bookBtn.addEventListener("click", toggleModal);
-closeBtn.addEventListener("click", toggleModal);
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   addBookToLibrary(
