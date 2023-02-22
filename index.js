@@ -8,6 +8,7 @@ const form = document.querySelector("#modal-form");
 const formTitle = document.querySelector("#title");
 const formAuthor = document.querySelector("#author");
 const formPages = document.querySelector("#pages");
+const formRead = document.querySelector("#read");
 let bookIndex;
 
 function Book(title, author, pages, read) {
@@ -19,25 +20,15 @@ function Book(title, author, pages, read) {
     `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
 }
 
-const theHobbit = new Book(
-  "The Hobbit",
-  "J.R.R Tolkien",
-  295,
-  "I have read this."
-);
+const theHobbit = new Book("The Hobbit", "J.R.R Tolkien", 295, true);
 
-const eragon = new Book(
-  "Eragon",
-  "Christopher Paolini",
-  500,
-  "I have read this."
-);
+const eragon = new Book("Eragon", "Christopher Paolini", 500, true);
 
 const toggleModal = () => {
-  if (modal.style.display === "none") {
-    modal.style.display = "block";
-  } else {
+  if (modal.style.display === "block") {
     modal.style.display = "none";
+  } else {
+    modal.style.display = "block";
   }
 };
 
@@ -48,8 +39,8 @@ const addBookToLibrary = (book) => {
   library.push(book);
 };
 
-const createBook = (title, author, pages) => {
-  const book = new Book(title, author, pages);
+const createBook = (title, author, pages, read) => {
+  const book = new Book(title, author, pages, read);
   return book;
 };
 
@@ -61,6 +52,13 @@ const createE = (tag, className, attr, attrValue) => {
   newElement.classList.add(className);
   newElement.setAttribute(attr, attrValue);
   return newElement;
+};
+
+const isRead = () => {
+  if (formRead.checked === true) {
+    const n = library.length - 1;
+    library[n].read = true;
+  }
 };
 
 const addCard = () => {
@@ -79,6 +77,20 @@ const addCard = () => {
       library.splice(e.target.dataset.index, 1);
       div.style.display = "none";
     });
+
+    const label = createE("label", "label", "data-index", bookIndex);
+    label.setAttribute("for", "book-read");
+    label.innerText = "Read";
+    div.appendChild(label);
+
+    const checkboxInput = createE("input", "checkbox", "data-index", bookIndex);
+    checkboxInput.setAttribute("type", "checkbox");
+    checkboxInput.setAttribute("name", "book-read");
+    checkboxInput.setAttribute("id", "book-read");
+    if (library[bookIndex].read === true) {
+      checkboxInput.setAttribute("checked", "");
+    }
+    div.appendChild(checkboxInput);
   });
 };
 addCard();
@@ -86,8 +98,14 @@ addCard();
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   addBookToLibrary(
-    createBook(formTitle.value, formAuthor.value, formPages.value)
+    createBook(
+      formTitle.value,
+      formAuthor.value,
+      formPages.value,
+      formRead.checked
+    )
   );
+  isRead();
   addCard();
   toggleModal();
 });
