@@ -34,6 +34,11 @@ const toggleModal = () => {
 
 bookBtn.addEventListener("click", toggleModal);
 closeBtn.addEventListener("click", toggleModal);
+window.addEventListener("click", (e) => {
+  if (e.target == modal) {
+    toggleModal();
+  }
+});
 
 const addBookToLibrary = (book) => {
   library.push(book);
