@@ -1,6 +1,6 @@
 const library = [];
 
-const container = document.querySelector(".container");
+const bookList = document.querySelector("#book-list");
 const bookBtn = document.querySelector("#bookBtn");
 const modal = document.querySelector("#modal");
 const closeBtn = document.querySelector(".close-btn");
@@ -67,16 +67,16 @@ const isRead = () => {
 };
 
 const addCard = () => {
-  container.innerHTML = "";
+  bookList.innerHTML = "";
   library.forEach((book) => {
     bookIndex = library.indexOf(book);
     const div = createE("div", "card", "data-index", bookIndex);
-    container.appendChild(div);
-    div.innerHTML = `<h2 class = "title">${book.title}</h2> <h3>${book.author}</h3> <span>${book.pages}</span>`;
+    bookList.appendChild(div);
+    div.innerHTML = `<h2 class = "title">${book.title}</h2> <h3>${book.author}</h3> <span class='pages'>${book.pages} pages</span>`;
 
     const delBtn = createE("button", "delBtn", "data-index", bookIndex);
-    div.appendChild(delBtn);
-    delBtn.innerText = "X";
+
+    delBtn.innerText = "Delete Book";
 
     delBtn.addEventListener("click", (e) => {
       library.splice(e.target.dataset.index, 1);
@@ -95,7 +95,8 @@ const addCard = () => {
     if (library[bookIndex].read === true) {
       checkboxInput.setAttribute("checked", "");
     }
-    div.appendChild(checkboxInput);
+    label.appendChild(checkboxInput);
+    div.appendChild(delBtn);
   });
 };
 addCard();
@@ -113,4 +114,8 @@ form.addEventListener("submit", (e) => {
   isRead();
   addCard();
   toggleModal();
+  (formTitle.value = ""),
+    (formAuthor.value = ""),
+    (formPages.value = ""),
+    (formRead.checked = false);
 });
