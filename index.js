@@ -11,13 +11,15 @@ const formPages = document.querySelector("#pages");
 const formRead = document.querySelector("#read");
 let bookIndex;
 
-function Book(title, author, pages, read) {
+class Book {
+  constructor (title, author, pages, read) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
   this.info = () =>
     `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
+  }
 }
 
 const theHobbit = new Book("The Hobbit", "J.R.R Tolkien", 295, true);
